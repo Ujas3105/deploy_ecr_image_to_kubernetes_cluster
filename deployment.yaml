@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: myproject
-        image: 924338258393.dkr.ecr.us-east-1.amazonaws.com/ayodejiimage
+        image: 442846456426.dkr.ecr.us-east-1.amazonaws.com/ayodejiimage
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
