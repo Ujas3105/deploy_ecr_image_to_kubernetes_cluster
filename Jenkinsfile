@@ -4,16 +4,12 @@ pipeline {
         maven 'Maven_3_5_2'  
     }
    stages{
-
-    // sonar analysis
-
     stage('CompileandRunSonarAnalysis') {
             steps {	
-		sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=tech365app -Dsonar.organization=tech365app -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=26744a8c3cb27f934e110753eb99af5070e61c7e'
+		sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=ujas-key -Dsonar.organization=ujas-key -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=091561df014d01f488b9edd13f9319f815750d80'
 			}
     }
 
-// // snyk analisys
 // 	stage('RunSCAAnalysisUsingSnyk') {
 //             steps {		
 // 				withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
@@ -23,11 +19,11 @@ pipeline {
 //     }	
 
 // building docker image
-	stage('Build') { 
+stage('Build') { 
             steps { 
                withDockerRegistry([credentialsId: "dockerlogin", url: ""]) {
                  script{
-                 app =  docker.build("tech365image")
+                 app =  docker.build("ayodejiimage")
                  }
                }
             }
@@ -36,13 +32,13 @@ pipeline {
 	stage('Push') {
             steps {
                 script{
-                    docker.withRegistry('https://924338258393.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:aws-credentials') {
+                    docker.withRegistry("https://442846456426.dkr.ecr.us-east-1.amazonaws.com", "ecr:us-east-1:aws-credentials") 
+			{
                     app.push("latest")
                     }
                 }
             }
     	}
-
     // deploy to kubernetes cluster
 
     stage('Kubernetes Deployment of Easy Buggy Web Application') {
